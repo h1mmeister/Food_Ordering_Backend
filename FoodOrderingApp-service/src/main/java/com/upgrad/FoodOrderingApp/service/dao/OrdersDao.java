@@ -13,6 +13,12 @@ public class OrdersDao {
 
   @PersistenceContext private EntityManager entityManager;
 
+  /**
+   * Fetch all the orders of a given address.
+   *
+   * @param addressEntity
+   * @return List of OrderEntity.
+   */
   public List<OrderEntity> getAllOrdersByAddress(final AddressEntity addressEntity) {
     return entityManager
         .createNamedQuery("allOrdersByAddress", OrderEntity.class)
