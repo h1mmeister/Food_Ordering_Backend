@@ -5,7 +5,6 @@ import com.upgrad.FoodOrderingApp.service.entity.CustomerAuthEntity;
 import com.upgrad.FoodOrderingApp.service.exception.AuthenticationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.UpdateCustomerException;
-import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.upgrad.FoodOrderingApp.service.dao.CustomerDao;
@@ -40,9 +39,9 @@ public class CustomerService {
             "SGR-001", "This contact number is already registered! Try other contact number.");
       }
       // checks the email entered by user is valid or not
-      if (!isValidEmail(customerEntity.getEmailAddress())) {
-        throw new SignUpRestrictedException("SGR-002", "Invalid email-id format!");
-      }
+//      if (!isValidEmail(customerEntity.getEmailAddress())) {
+//        throw new SignUpRestrictedException("SGR-002", "Invalid email-id format!");
+//      }
       // checks the contact number entered by user is valid or not
       if (!isValidContactNumber(customerEntity.getContactNumber())) {
         throw new SignUpRestrictedException("SGR-003", "Invalid contact number!");
@@ -154,11 +153,10 @@ public class CustomerService {
     return customerDao.getCustomerByContactNumber(contactNumber) != null;
   }
 
-
-  private boolean isValidEmail(final String emailAddress) {
-    EmailValidator validator = EmailValidator.getInstance();
-    return validator.isValid(emailAddress);
-  }
+//  private boolean isValidEmail(final String emailAddress) {
+//    EmailValidator validator = EmailValidator.getInstance();
+//    return validator.isValid(emailAddress);
+//  }
 
   // method checks for given contact number is valid or not
   private boolean isValidContactNumber(final String contactNumber) {

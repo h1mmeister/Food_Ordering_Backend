@@ -19,7 +19,7 @@ import java.util.List;
       name = "customerByContactNumber",
       query = "select c from CustomerEntity c where c.contactNumber=:contactNumber")
 })
-public class CustomerEntity<AddressEntity> implements Serializable {
+public class CustomerEntity implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
