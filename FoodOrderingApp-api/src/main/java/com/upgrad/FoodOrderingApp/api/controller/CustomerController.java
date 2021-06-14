@@ -62,9 +62,6 @@ public class CustomerController {
     byte[] decode;
     String contactNumber;
     String password;
-    // ArrayIndexOutOfBoundsException occurs if the username or password is left as empty or try to
-    // authorize without Basic in prefix 'Basic Base64<contactNumber:password>' then it throws
-    // AuthenticationFailedException with code as ATH-003
     try {
       decode = Base64.getDecoder().decode(authorization.split("Basic ")[1]);
       String decodedText = new String(decode);

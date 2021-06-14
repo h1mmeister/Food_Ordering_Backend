@@ -27,13 +27,6 @@ public class ItemController {
   @Autowired private ItemService itemService;
   @Autowired private RestaurantService restaurantService;
 
-  /**
-   * This method gets top five popular items of a restaurant based on number of times it is ordered.
-   *
-   * @param restaurantId UUID for the restaurant
-   * @return ItemListResponse
-   * @throws RestaurantNotFoundException If restaurant with UUID doesn't exist in the database
-   */
   @CrossOrigin
   @RequestMapping(
       method = RequestMethod.GET,

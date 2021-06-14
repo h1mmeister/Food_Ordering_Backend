@@ -27,8 +27,6 @@ public class CustomerService {
   @Transactional(propagation = Propagation.REQUIRED)
   public CustomerEntity saveCustomer(CustomerEntity customerEntity)
       throws SignUpRestrictedException {
-    // Validation for required fields if any field other than lastname is empty then it throws
-    // SignUpRestrictedException exception
     if (!customerEntity.getFirstName().isEmpty()
         && !customerEntity.getEmailAddress().isEmpty()
         && !customerEntity.getContactNumber().isEmpty()
@@ -46,12 +44,12 @@ public class CustomerService {
       if (!isValidContactNumber(customerEntity.getContactNumber())) {
         throw new SignUpRestrictedException("SGR-003", "Invalid contact number!");
       }
-      // checks the password entered by user is valid or not
+
       if (!isValidPassword(customerEntity.getPassword())) {
         throw new SignUpRestrictedException("SGR-004", "Weak password!");
       }
       customerEntity.setUuid(UUID.randomUUID().toString());
-      // encrypts salt and password
+
       String[] encryptedText = passwordCryptographyProvider.encrypt(customerEntity.getPassword());
       customerEntity.setSalt(encryptedText[0]);
       customerEntity.setPassword(encryptedText[1]);
@@ -65,18 +63,16 @@ public class CustomerService {
   @Transactional(propagation = Propagation.REQUIRED)
   public CustomerAuthEntity authenticate(String username, String password)
       throws AuthenticationFailedException {
-    // fetch the customer details from database using contactNumber(username)
+
     CustomerEntity customerEntity = customerDao.getCustomerByContactNumber(username);
-    // if there is no customer registered with given contactNumber then it throw
-    // AuthenticationFailedException with code "ATH-001
+
     if (customerEntity == null) {
       throw new AuthenticationFailedException(
           "ATH-001", "This contact number has not been registered!");
     }
     final String encryptedPassword =
         PasswordCryptographyProvider.encrypt(password, customerEntity.getSalt());
-    // if the encrypted password doesn't match with the fetched customer password throws
-    // AuthenticationFailedException with code "ATH--002
+
     if (!encryptedPassword.equals(customerEntity.getPassword())) {
       throw new AuthenticationFailedException("ATH-002", "Invalid Credentials");
     }
@@ -148,7 +144,7 @@ public class CustomerService {
     }
   }
 
-  // method checks for given contact number is already registered or not
+
   private boolean isContactNumberInUse(final String contactNumber) {
     return customerDao.getCustomerByContactNumber(contactNumber) != null;
   }
@@ -158,7 +154,7 @@ public class CustomerService {
 //    return validator.isValid(emailAddress);
 //  }
 
-  // method checks for given contact number is valid or not
+
   private boolean isValidContactNumber(final String contactNumber) {
     if (contactNumber.length() != 10) {
       return false;
@@ -171,7 +167,7 @@ public class CustomerService {
     return true;
   }
 
-  // method checks for given password meets the requirements or not
+
   private boolean isValidPassword(final String password) {
     return password.matches("^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#@$%&*!^]).{8,}$");
   }
